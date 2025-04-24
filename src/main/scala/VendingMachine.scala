@@ -17,14 +17,44 @@ class VendingMachine(maxCount: Int) extends Module {
 
   // ***** some dummy connections *****
   sevSeg := "b1111111".U
+  
+  io.alarm := 0.B
+  io.releaseCan := 0.B
+  
+  object State extends ChiselEnum {
+    val io.coin2, io.coin5, idle = Value
+  }
+  
+  import State._
+  val stateReg = RegInit(idle)
 
-  io.alarm := io.coin2
-  io.releaseCan := io.coin5
+  switch(stateReg){
+    is (idle){
+      when(io.coin2){
+        stateReg := io.coin2
+      }elsewhen(io.coin5)
+    }
+    is (io.coin2){
+      when(io.coin2){
+        stateReg :=
+      }
+    }
+  }
 
+  val newSum = Mux(validBuy, sumAddCoin, sumSubtractPrice)
 
+  val sumGreaterThanPrice = newSum >= io.price
+  
+  io.releaseCan := io.buy & sumGreaterThanPrice
+  io.alarm := io.buy ^ io.releaseCan
+  
+    
   io.seg := ~sevSeg
   io.an := "b1110".U
 }
+
+
+
 
 // generate Verilog
 object VendingMachine extends App {
