@@ -55,7 +55,7 @@ set_property PACKAGE_PIN A15 [get_ports {io_coin2}]
 # BTN1
 set_property PACKAGE_PIN A17 [get_ports {io_coin5}]
 # BTN2
-set_property PACKAGE_PIN C15 [get_ports {io_buy}]
+set_property PACKAGE_PIN C16 [get_ports {io_buy}]
 # BTN3 -  can be used as manual clock
 #set_property PACKAGE_PIN C16 [get_ports {io_btn[3]}]
 
